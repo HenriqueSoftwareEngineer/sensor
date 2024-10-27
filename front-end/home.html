@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Temperatura</title>
+    <!-- Link do framework CSS, ex.: Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Cabeçalho do Dashboard -->
+        <header class="text-center mb-4">
+            <h1>Dashboard de Monitoramento de Temperatura</h1>
+            <p>Exibe dados de temperatura em tempo real para diferentes quadrantes.</p>
+        </header>
+
+        <!-- Painel de Informações Principais -->
+        <section class="row mb-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Temperatura Média</h5>
+                        <p id="mediaGeral" class="card-text">--°C</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Temperatura Máxima</h5>
+                        <p id="maxTemperatura" class="card-text">--°C</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Temperatura Mínima</h5>
+                        <p id="minTemperatura" class="card-text">--°C</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Gráficos por Quadrante -->
+        <section>
+            <h2 class="mb-4">Média de Temperatura por Quadrante</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Quadrante Norte</h5>
+                            <p id="mediaNorte">--°C</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Quadrante Sul</h5>
+                            <p id="mediaSul">--°C</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Quadrante Leste</h5>
+                            <p id="mediaLeste">--°C</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Quadrante Oeste</h5>
+                            <p id="mediaOeste">--°C</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Script para buscar e exibir dados da API -->
+    <script>
+        // Função que chama a API e processa os dados
+        async function fetchDadosTemperatura() {
+            try {
+                const response = await fetch('URL_DA_API');
+                const data = await response.json();
+
+                // Dados gerais
+                document.getElementById('mediaGeral').innerText = data.mediaGeral + '°C';
+                document.getElementById('maxTemperatura').innerText = data.maxTemperatura + '°C';
+                document.getElementById('minTemperatura').innerText = data.minTemperatura + '°C';
+
+                // Dados por quadrante
+                document.getElementById('mediaNorte').innerText = data.quadrantes.norte + '°C';
+                document.getElementById('mediaSul').innerText = data.quadrantes.sul + '°C';
+                document.getElementById('mediaLeste').innerText = data.quadrantes.leste + '°C';
+                document.getElementById('mediaOeste').innerText = data.quadrantes.oeste + '°C';
+            } catch (error) {
+                console.error("Erro ao buscar dados da API:", error);
+            }
+        }
+
+        // Atualiza dados periodicamente
+        setInterval(fetchDadosTemperatura, 5000); // Atualiza a cada 5 segundos
+    </script>
+
+    <!-- Framework JavaScript para interatividade, ex.: Bootstrap e jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
